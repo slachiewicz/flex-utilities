@@ -16,15 +16,15 @@
  */
 package com.adobe.ac.pmd.maven;
 
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.project.MavenProject;
 
 import com.adobe.ac.pmd.FlexPmdParameters;
 
-/**
- * @goal check
- * @phase verify
- * @execute goal="report"
- */
+@Mojo( name = "check", defaultPhase = LifecyclePhase.VERIFY )
+@Execute( goal = "report" )
 public class FlexPmdMojo extends AbstractFlexPmdMojo // NO_UCD
 {
    public FlexPmdMojo()

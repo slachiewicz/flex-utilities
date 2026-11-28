@@ -21,9 +21,9 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.util.Locale;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.doxia.sink.impl.SinkAdapter;
 import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-import org.codehaus.doxia.site.renderer.DefaultSiteRenderer;
+import org.apache.maven.reporting.MavenReportException;
 import org.junit.Test;
 
 import com.adobe.ac.pmd.FlexPmdTestBase;
@@ -31,7 +31,7 @@ import com.adobe.ac.pmd.FlexPmdTestBase;
 public class FlexMetricsReportMojoTest extends FlexPmdTestBase
 {
    @Test
-   public void executeMultipleReport() throws MojoExecutionException
+   public void executeMultipleReport() throws MavenReportException
    {
       final MavenProjectStub project = new MavenProjectStub();
       final File outputDirectoryToBeSet = new File( project.getBasedir().getAbsolutePath()
@@ -42,18 +42,17 @@ public class FlexMetricsReportMojoTest extends FlexPmdTestBase
       mojo.addReactorProject( new MavenProjectStub() );
       mojo.addReactorProject( new MavenProjectStub() );
       mojo.setLineThreshold( 5 );
-      mojo.setSiteRenderer( new DefaultSiteRenderer() );
       mojo.setXmlOutputDirectory( outputDirectoryToBeSet );
       mojo.setTempFileName( "javancss-raw-report.xml" );
 
       assertNotNull( "",
                      mojo.getName( Locale.ENGLISH ) );
 
-      mojo.execute();
+      mojo.generate( new SinkAdapter(), Locale.ENGLISH );
    }
 
    @Test
-   public void executeSingleReport() throws MojoExecutionException
+   public void executeSingleReport() throws MavenReportException
    {
       final File outputDirectoryToBeSet = new File( "target/pmd" );
 
@@ -64,18 +63,17 @@ public class FlexMetricsReportMojoTest extends FlexPmdTestBase
                                                                     outputDirectoryToBeSet );
 
       mojo.setLineThreshold( 5 );
-      mojo.setSiteRenderer( new DefaultSiteRenderer() );
       mojo.setXmlOutputDirectory( outputDirectoryToBeSet );
       mojo.setTempFileName( "javancss-raw-report.xml" );
 
       assertNotNull( "",
                      mojo.getName( Locale.ENGLISH ) );
 
-      mojo.execute();
+      mojo.generate( new SinkAdapter(), Locale.ENGLISH );
    }
 
    @Test
-   public void executeSingleReportOnNonExistingFolder() throws MojoExecutionException
+   public void executeSingleReportOnNonExistingFolder() throws MavenReportException
    {
       final File outputDirectoryToBeSet = new File( "target/pmd" );
 
@@ -86,13 +84,12 @@ public class FlexMetricsReportMojoTest extends FlexPmdTestBase
                                                                     outputDirectoryToBeSet );
 
       mojo.setLineThreshold( 5 );
-      mojo.setSiteRenderer( new DefaultSiteRenderer() );
       mojo.setXmlOutputDirectory( outputDirectoryToBeSet );
       mojo.setTempFileName( "javancss-raw-report.xml" );
 
       assertNotNull( "",
                      mojo.getName( Locale.ENGLISH ) );
 
-      mojo.execute();
+      mojo.generate( new SinkAdapter(), Locale.ENGLISH );
    }
 }

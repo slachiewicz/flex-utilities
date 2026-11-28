@@ -20,6 +20,9 @@ import java.util.Locale;
 
 import net.sourceforge.pmd.PMDException;
 
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.MavenReportException;
 
@@ -28,18 +31,14 @@ import com.adobe.ac.pmd.FlexPmdViolations;
 
 /**
  * @author xagnetti
- * @goal report
- * @phase site
  */
+@Mojo( name = "report", defaultPhase = LifecyclePhase.SITE )
 public class FlexPmdReportMojo extends AbstractFlexPmdMojo
 {
    /**
     * Specifies the location of the source files to be used.
-    * 
-    * @parameter default-value="false"
-    * @required
-    * @readonly
     */
+   @Parameter( defaultValue = "false", readonly = true, required = true )
    private boolean aggregate;
 
    public FlexPmdReportMojo()

@@ -27,10 +27,8 @@ import net.sourceforge.pmd.Report;
 import net.sourceforge.pmd.RuleContext;
 import net.sourceforge.pmd.renderers.HTMLRenderer;
 
-import org.apache.maven.plugin.pmd.PmdFileInfo;
-import org.apache.maven.plugin.pmd.PmdReportListener;
+import org.apache.maven.doxia.sink.Sink;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.doxia.sink.Sink;
 
 import com.adobe.ac.pmd.FlexPmdParameters;
 import com.adobe.ac.pmd.FlexPmdViolations;
@@ -71,7 +69,7 @@ class FlexPmdHtmlEngine extends AbstractFlexPmdEngine
    {
       final Report report = new Report();
       final RuleContext ruleContext = new RuleContext();
-      final PmdReportListener reportSink = new PmdReportListener( sink, bundle, aggregate );
+      final FlexPmdReportListener reportSink = new FlexPmdReportListener( sink, bundle, aggregate );
 
       report.addListener( reportSink );
       ruleContext.setReport( report );
@@ -84,7 +82,9 @@ class FlexPmdHtmlEngine extends AbstractFlexPmdEngine
          final List< IFlexViolation > violations = pmd.getViolations().get( file );
 
          reportSink.beginFile( javaFile,
-                               new PmdFileInfo( project, javaFile.getParentFile(), "" ) ); // NOPMD
+                               javaFile.getParentFile(),
+                               project,
+                               "" );
          ruleContext.setSourceCodeFilename( file.getPackageName()
                + "." + file.getClassName() );
 

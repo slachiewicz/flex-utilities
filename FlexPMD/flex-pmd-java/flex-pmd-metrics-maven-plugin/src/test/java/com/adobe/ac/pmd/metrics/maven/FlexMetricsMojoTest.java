@@ -17,11 +17,13 @@
 package com.adobe.ac.pmd.metrics.maven;
 
 import java.io.File;
+import java.util.Locale;
 
+import org.apache.maven.doxia.sink.impl.SinkAdapter;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-import org.codehaus.doxia.site.renderer.DefaultSiteRenderer;
+import org.apache.maven.reporting.MavenReportException;
 import org.junit.Test;
 
 import com.adobe.ac.pmd.FlexPmdTestBase;
@@ -32,7 +34,8 @@ public class FlexMetricsMojoTest extends FlexPmdTestBase
 
    @Test
    public void executeReport() throws MojoExecutionException,
-                              MojoFailureException
+                              MojoFailureException,
+                              MavenReportException
    {
       final MavenProjectStub project = new MavenProjectStub();
       final File outputDirectoryToBeSet = new File( project.getBasedir().getAbsolutePath()
@@ -44,10 +47,9 @@ public class FlexMetricsMojoTest extends FlexPmdTestBase
 
       outputDirectoryToBeSet.mkdirs();
       reportMojo.setLineThreshold( 5 );
-      reportMojo.setSiteRenderer( new DefaultSiteRenderer() );
       reportMojo.setXmlOutputDirectory( outputDirectoryToBeSet );
       reportMojo.setTempFileName( TEMP_FILE_NAME );
-      reportMojo.execute();
+      reportMojo.generate( new SinkAdapter(), Locale.ENGLISH );
 
       mojo.setXmlOutputDirectory( outputDirectoryToBeSet );
       mojo.setTempFileName( TEMP_FILE_NAME );

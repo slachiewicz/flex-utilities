@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.maven.plugin.logging.Log;
-import org.codehaus.doxia.sink.Sink;
+import org.apache.maven.doxia.sink.Sink;
 import org.dom4j.Document;
 import org.dom4j.Node;
 
@@ -126,6 +126,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
                 + " " + lineThreshold + " " + getResourceBundle().getString( "report.javancss.function.byncss" ) );
         getSink().paragraph();
         getSink().table();
+        getSink().tableRows( null, false );
         getSink().tableRow();
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.function" ) );
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.ncss" ) );
@@ -148,6 +149,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
             tableCellHelper( node.valueOf( "ccn" ) );
             getSink().tableRow_();
         }
+        getSink().tableRows_();
         getSink().table_();
         getSink().paragraph_();
     }
@@ -157,6 +159,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
         subtitleHelper( getResourceBundle().getString( "report.javancss.averages" ) );
         getSink().paragraph();
         getSink().table();
+        getSink().tableRows( null, false );
         getSink().tableRow();
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.programncss" ) );
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.ncssaverage" ) );
@@ -169,6 +172,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
         tableCellHelper( node.valueOf( NCSS ) );
         tableCellHelper( node.valueOf( "ccn" ) );
         getSink().tableRow_();
+        getSink().tableRows_();
         getSink().table_();
         getSink().paragraph_();
     }
@@ -196,6 +200,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
     {
         subtitleHelper( getResourceBundle().getString( "report.javancss.package.text" ) );
         getSink().table();
+        getSink().tableRows( null, false );
         getSink().tableRow();
         // HEADER
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.package" ) );
@@ -217,6 +222,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
             tableCellHelper( node.valueOf( NCSS ) );
             getSink().tableRow_();
         }
+        getSink().tableRows_();
         getSink().table_();
     }
 
@@ -224,6 +230,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
     {
         subtitleHelper( getResourceBundle().getString( "report.javancss.averages" ) );
         getSink().table();
+        getSink().tableRows( null, false );
         getSink().tableRow();
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.ncssaverage" ) );
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.classeaverage" ) );
@@ -235,6 +242,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
         tableCellHelper( node.valueOf( CLASSES ) );
         tableCellHelper( node.valueOf( FUNCTIONS ) );
         getSink().tableRow_();
+        getSink().tableRows_();
         getSink().table_();
     }
 
@@ -253,6 +261,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
     private void doTopObjectGeneric( final List< Node > nodeList )
     {
         getSink().table();
+        getSink().tableRows( null, false );
         getSink().tableRow();
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.object" ) );
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.ncss" ) );
@@ -270,6 +279,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
             tableCellHelper( node.valueOf( FUNCTIONS ) );
             getSink().tableRow_();
         }
+        getSink().tableRows_();
         getSink().table_();
     }
 
@@ -287,6 +297,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
     private void doTotalPackageAnalysis( final Document document )
     {
         getSink().table();
+        getSink().tableRows( null, false );
         getSink().tableRow();
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.classetotal" ) );
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.functiontotal" ) );
@@ -298,6 +309,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
         tableCellHelper( node.valueOf( FUNCTIONS ) );
         tableCellHelper( node.valueOf( NCSS ) );
         getSink().tableRow_();
+        getSink().tableRows_();
         getSink().table_();
     }
 
@@ -373,6 +385,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
         paragraphHelper( getResourceBundle().getString( "report.javancss.explanation.ncss.paragraph1" ) );
         paragraphHelper( getResourceBundle().getString( "report.javancss.explanation.ncss.paragraph2" ) );
         getSink().table();
+        getSink().tableRows( null, false );
 
         getSink().tableRow();
         headerCellHelper( "" );
@@ -385,6 +398,7 @@ public class NcssReportGenerator extends NcssReportGeneratorBase
         explainFunction();
         explainStatement();
 
+        getSink().tableRows_();
         getSink().table_();
 
         paragraphHelper( getResourceBundle().getString( "report.javancss.explanation.ncss.paragraph3" ) );

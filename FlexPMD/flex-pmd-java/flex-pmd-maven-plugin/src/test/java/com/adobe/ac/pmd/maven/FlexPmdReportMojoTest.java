@@ -22,9 +22,9 @@ import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.doxia.sink.impl.SinkAdapter;
 import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-import org.codehaus.doxia.site.renderer.DefaultSiteRenderer;
+import org.apache.maven.reporting.MavenReportException;
 import org.junit.Test;
 
 import com.adobe.ac.pmd.FlexPmdParameters;
@@ -33,7 +33,7 @@ import com.adobe.ac.pmd.FlexPmdTestBase;
 public class FlexPmdReportMojoTest extends FlexPmdTestBase
 {
    @Test
-   public void testExecuteReport() throws MojoExecutionException
+   public void testExecuteReport() throws MavenReportException
    {
       new File( "target/site" ).mkdirs();
       final FlexPmdReportMojo mojo = new FlexPmdReportMojo( new MavenProjectStub(),
@@ -44,15 +44,14 @@ public class FlexPmdReportMojoTest extends FlexPmdTestBase
                                                                                    null,
                                                                                    getTestDirectory() ) );
 
-      mojo.setSiteRenderer( new DefaultSiteRenderer() );
       assertNotNull( "",
                      mojo.getName( Locale.ENGLISH ) );
 
-      mojo.execute();
+      mojo.generate( new SinkAdapter(), Locale.ENGLISH );
    }
 
    @Test
-   public void testExecuteReportOnNoViolationsSourcePath() throws MojoExecutionException
+   public void testExecuteReportOnNoViolationsSourcePath() throws MavenReportException
    {
       new File( "target/site" ).mkdirs();
       final FlexPmdReportMojo mojo = new FlexPmdReportMojo( new MavenProjectStub(),
@@ -64,11 +63,10 @@ public class FlexPmdReportMojoTest extends FlexPmdTestBase
                                                                                    new File( getTestDirectory().getAbsoluteFile()
                                                                                          + "/fu" ) ) );
 
-      mojo.setSiteRenderer( new DefaultSiteRenderer() );
       assertNotNull( "",
                      mojo.getName( Locale.ENGLISH ) );
 
-      mojo.execute();
+      mojo.generate( new SinkAdapter(), Locale.ENGLISH );
    }
 
    @Test

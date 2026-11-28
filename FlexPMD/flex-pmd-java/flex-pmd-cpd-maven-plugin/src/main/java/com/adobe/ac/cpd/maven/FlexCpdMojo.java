@@ -30,10 +30,12 @@ import net.sourceforge.pmd.cpd.Renderer;
 import net.sourceforge.pmd.cpd.ReportException;
 import net.sourceforge.pmd.cpd.XMLRenderer;
 
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
-import org.codehaus.doxia.site.renderer.SiteRenderer;
 
 import com.adobe.ac.cpd.FlexLanguage;
 import com.adobe.ac.pmd.LoggerUtils;
@@ -42,9 +44,8 @@ import com.adobe.ac.pmd.files.impl.FileUtils;
 
 /**
  * @author xagnetti
- * @goal check
- * @phase verify
  */
+@Mojo( name = "check", defaultPhase = LifecyclePhase.VERIFY )
 public class FlexCpdMojo extends AbstractMavenReport
 {
    private static final String OUTPUT_NAME = "cpd";
@@ -60,42 +61,20 @@ public class FlexCpdMojo extends AbstractMavenReport
 
    /**
     * Location of the file.
-    * 
-    * @parameter expression="25"
-    * @required
     */
+   @Parameter( defaultValue = "25", required = true )
    private int          minimumTokenCount;
 
    /**
     * Location of the file.
-    * 
-    * @parameter expression="${project.build.directory}"
-    * @required
     */
+   @Parameter( defaultValue = "${project.build.directory}", required = true )
    private File         outputDirectory;
 
    /**
-    * @parameter expression="${project}"
-    * @required
-    * @readonly
-    */
-   private MavenProject project;
-
-   /**
-    * @parameter 
-    *            expression="${component.org.codehaus.doxia.site.renderer.SiteRenderer}"
-    * @required
-    * @readonly
-    */
-   private SiteRenderer siteRenderer;
-
-   /**
     * Specifies the location of the source files to be used.
-    * 
-    * @parameter expression="${project.build.sourceDirectory}"
-    * @required
-    * @readonly
     */
+   @Parameter( defaultValue = "${project.build.sourceDirectory}", readonly = true, required = true )
    private File         sourceDirectory;
 
    public FlexCpdMojo()
@@ -127,11 +106,6 @@ public class FlexCpdMojo extends AbstractMavenReport
    public final String getOutputName()
    {
       return OUTPUT_NAME;
-   }
-
-   void setSiteRenderer( final SiteRenderer site )
-   {
-      siteRenderer = site;
    }
 
    @Override
@@ -181,12 +155,6 @@ public class FlexCpdMojo extends AbstractMavenReport
    protected MavenProject getProject()
    {
       return project;
-   }
-
-   @Override
-   protected SiteRenderer getSiteRenderer()
-   {
-      return siteRenderer;
    }
 
    private void report( final CPD cpd ) throws ReportException

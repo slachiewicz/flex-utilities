@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.maven.plugin.logging.Log;
-import org.codehaus.doxia.sink.Sink;
+import org.apache.maven.doxia.sink.Sink;
 import org.dom4j.Document;
 import org.dom4j.Node;
 
@@ -153,6 +153,7 @@ public class NcssAggregateReportGenerator extends NcssReportGeneratorBase
     private void doModuleAnalysisHeader()
     {
         getSink().table();
+        getSink().tableRows( null, false );
         getSink().tableRow();
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.module" ) );
         headerCellHelper( getResourceBundle().getString( "report.javancss.header.packages" ) );
@@ -187,6 +188,7 @@ public class NcssAggregateReportGenerator extends NcssReportGeneratorBase
         tableCellHelper( String.valueOf( multi ) );
         getSink().tableRow_();
 
+        getSink().tableRows_();
         getSink().table_();
     }
 

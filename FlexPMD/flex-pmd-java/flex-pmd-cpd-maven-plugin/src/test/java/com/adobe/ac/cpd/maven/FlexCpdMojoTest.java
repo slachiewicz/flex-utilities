@@ -18,10 +18,11 @@ package com.adobe.ac.cpd.maven;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.doxia.sink.impl.SinkAdapter;
 import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-import org.codehaus.doxia.site.renderer.DefaultSiteRenderer;
+import org.apache.maven.reporting.MavenReportException;
 import org.junit.Test;
 
 import com.adobe.ac.pmd.FlexPmdTestBase;
@@ -29,14 +30,13 @@ import com.adobe.ac.pmd.FlexPmdTestBase;
 public class FlexCpdMojoTest extends FlexPmdTestBase
 {
    @Test
-   public void testExecute() throws MojoExecutionException,
+   public void testExecute() throws MavenReportException,
                             IOException
    {
       final FlexCpdMojo mojo = new FlexCpdMojo( new File( "target" ),
                                                 getTestDirectory(),
                                                 new MavenProjectStub() );
 
-      mojo.setSiteRenderer( new DefaultSiteRenderer() );
-      mojo.execute();
+      mojo.generate( new SinkAdapter(), Locale.ENGLISH );
    }
 }

@@ -39,10 +39,10 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
-import org.codehaus.doxia.site.renderer.SiteRenderer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -68,68 +68,44 @@ abstract class AbstractFlexPmdMojo extends AbstractMavenReport
 
    /**
     * Location of the file.
-    * 
-    * @parameter expression="${flexpmd.excludePackage}"
     */
+   @Parameter( property = "flexpmd.excludePackage" )
    private String       excludePackage = "";
 
    /**
     * Build fails if an violation error occurs.
-    * 
-    * @parameter expression="${flexpmd.failOnError}"
     */
+   @Parameter( property = "flexpmd.failOnError" )
    private boolean      failOnError;
 
    /**
     * Build fails if an violation error occurs.
-    * 
-    * @parameter expression="${flexpmd.failOnRuleViolation}"
     */
+   @Parameter( property = "flexpmd.failOnRuleViolation" )
    private boolean      failOnRuleViolation;
 
    /**
     * Location of the file.
-    * 
-    * @parameter expression="${project.build.directory}"
-    * @required
     */
+   @Parameter( defaultValue = "${project.build.directory}", required = true )
    private File         outputDirectory;
 
    /**
-    * @parameter expression="${project}"
-    * @required
-    * @readonly
-    */
-   private MavenProject project;
-
-   /**
     * Location of the file.
-    * 
-    * @parameter expression="${flexpmd.ruleset}"
     */
+   @Parameter( property = "flexpmd.ruleset" )
    private File         ruleSet;
 
    /**
-    * @parameter 
-    *            expression="${component.org.codehaus.doxia.site.renderer.SiteRenderer}"
-    * @required
-    * @readonly
-    */
-   private SiteRenderer siteRenderer;
-
-   /**
     * Specifies the location of the source files to be used.
-    * 
-    * @parameter expression="${project.build.sourceDirectory}"
-    * @required
     */
+   @Parameter( defaultValue = "${project.build.sourceDirectory}", required = true )
    private File         sourceDirectory;
 
    /**
     * URL of the file
-    * 
-    * @parameter expression="${flexpmd.url}"
     */
+   @Parameter( property = "flexpmd.url" )
    private URL          url;
 
    public AbstractFlexPmdMojo()
@@ -243,12 +219,6 @@ abstract class AbstractFlexPmdMojo extends AbstractMavenReport
       return ruleSet;
    }
 
-   @Override
-   protected final SiteRenderer getSiteRenderer()
-   {
-      return siteRenderer;
-   }
-
    protected final File getSourceDirectory()
    {
       return sourceDirectory;
@@ -271,11 +241,6 @@ abstract class AbstractFlexPmdMojo extends AbstractMavenReport
       {
          throw new MavenReportException( "At least one violation has been found" );
       }
-   }
-
-   protected final void setSiteRenderer( final SiteRenderer siteRendererToBeSet ) // NO_UCD
-   {
-      this.siteRenderer = siteRendererToBeSet;
    }
 
    /**

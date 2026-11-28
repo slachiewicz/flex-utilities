@@ -23,9 +23,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.doxia.sink.impl.SinkAdapter;
 import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-import org.codehaus.doxia.site.renderer.DefaultSiteRenderer;
+import org.apache.maven.reporting.MavenReportException;
 import org.junit.Test;
 
 import com.adobe.ac.pmd.FlexPmdParameters;
@@ -70,19 +70,18 @@ public class FlexPmdMojoTest extends FlexPmdTestBase
                                                                        ruleset,
                                                                        getTestDirectory() ) );
 
-      mojo.setSiteRenderer( new DefaultSiteRenderer() );
       assertNotNull( "",
                      mojo.getName( Locale.ENGLISH ) );
 
       try
       {
-         mojo.execute();
+         mojo.generate( new SinkAdapter(), Locale.ENGLISH );
          if ( failOnError )
          {
             fail( "One expection should have been thrown" );
          }
       }
-      catch ( final MojoExecutionException e )
+      catch ( final MavenReportException e )
       {
          if ( !failOnError )
          {
